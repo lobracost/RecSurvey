@@ -1,0 +1,17 @@
+#!/usr/bin/nodejs
+
+const fs = require('fs');
+var https = require('https');
+var debug = require('debug')('my-application');
+var app = require('../app');
+
+
+app.set('port', process.env.PORT || 3000);
+
+
+var server = https.createServer({
+    key: fs.readFileSync('certificates/rec_survey.key'),
+    cert: fs.readFileSync('certificates/rec_survey.cert')
+}, app).listen(app.get('port'), () => {
+    debug('Express server listening on port ' + server.address().port);
+})

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Record Survey</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+</head>
+
+<body>
+    <h1>
+        <%= title %>
+    </h1>
+
+
+    <!-- Trigger/Open The Modal -->
+    <button id="start">Begin Survey</button>
+
+    <!-- The Modal -->
+    <div id="infoModal" class="modal">
+
+        <!-- Modal content -->
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h1>Personal Information</h1>
+            <div id="formAddUser" name="adduser">
+                <input id="inputUserName" type="text" placeholder="username" name="username" />
+                <input id="inputUserEmail" type="text" placeholder="email" name="useremail" />
+                <button id="next1">Next 1</button>
+            </div>
+        </div>
+
+    </div>
+
+    <div id="modal1" class="modal">
+
+        <!-- Modal content -->
+        <div class="modal-content">
+            <h1>Personal Information</h1>
+            <div id="controls">
+                <button id="recordButton1">Record</button>
+                <button id="pauseButton1" disabled>Pause</button>
+                <button id="stopButton1" disabled>Stop</button>
+            </div>
+            <h3>Recording</h3>
+            <ol id="recordingsList1"></ol>
+
+            <button id="next2">Next 2</button>
+        </div>
+
+    </div>
+
+
+    <div id="modal2" class="modal">
+
+        <!-- Modal content -->
+        <div class="modal-content">
+            <h1>Personal Information</h1>
+            <div id="controls">
+                <button id="recordButton2">Record</button>
+                <button id="pauseButton2" disabled>Pause</button>
+                <button id="stopButton2" disabled>Stop</button>
+            </div>
+            <h3>Recording</h3>
+            <ol id="recordingsList2"></ol>
+
+            <button id="next3">Next 3</button>
+        </div>
+
+    </div>
+
+
+    <div id="modal3" class="modal">
+
+        <!-- Modal content -->
+        <div class="modal-content">
+            <h1>Personal Information</h1>
+            <div id="controls">
+                <button id="recordButton3">Record</button>
+                <button id="pauseButton3" disabled>Pause</button>
+                <button id="stopButton3" disabled>Stop</button>
+            </div>
+
+            <h3>Recording</h3>
+            <ol id="recordingsList3"></ol>
+
+            <button id="submit">submit</button>
+        </div>
+
+    </div>
+
+
+    <script src="https://cdn.rawgit.com/mattdiamond/Recorderjs/08e7abd9/dist/recorder.js"></script>
+    <script src="javascripts/global.js"></script>
+</body>
+
+</html>
