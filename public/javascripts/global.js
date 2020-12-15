@@ -1,45 +1,42 @@
 let progress;
 console.log(progress)
 
-URL = window.URL || window.webkitURL;
+var info = {}
+
 var gumStream;
 //stream from getUserMedia() 
-var rec;
-//Recorder.js object 
+var recorder;
+//WebAudioRecorder object 
 var input;
-//MediaStreamAudioSourceNode we'll be recording 
-// shim for AudioContext when it's not avb. 
-var AudioContext = window.AudioContext || window.webkitAudioContext;
+//MediaStreamAudioSourceNode we'll be recording var encodingType; 
+//holds selected encoding for resulting audio (file) 
+var encodeAfterRecord = true;
+// when to encode 
 var audioContext = new AudioContext;
+
+
 //new audio context to help us record 
 var recordButton1 = document.getElementById("recordButton1");
 var stopButton1 = document.getElementById("stopButton1");
-var pauseButton1 = document.getElementById("pauseButton1");
 var recordingsList1 = document.getElementById("recordingsList1");
 
 var recordButton2 = document.getElementById("recordButton2");
 var stopButton2 = document.getElementById("stopButton2");
-var pauseButton2 = document.getElementById("pauseButton2");
 var recordingsList2 = document.getElementById("recordingsList2");
 
 var recordButton3 = document.getElementById("recordButton3");
 var stopButton3 = document.getElementById("stopButton3");
-var pauseButton3 = document.getElementById("pauseButton3");
 var recordingsList3 = document.getElementById("recordingsList3");
 
 //add events to those 3 buttons 
 recordButton1.addEventListener("click", startRecording);
 stopButton1.addEventListener("click", stopRecording);
-pauseButton1.addEventListener("click", pauseRecording);
 
 recordButton2.addEventListener("click", startRecording);
 stopButton2.addEventListener("click", stopRecording);
-pauseButton2.addEventListener("click", pauseRecording);
 
 recordButton3.addEventListener("click", startRecording);
 stopButton3.addEventListener("click", stopRecording);
-pauseButton3.addEventListener("click", pauseRecording);
-
 
 
 // Get the modal
@@ -54,8 +51,6 @@ var next1 = document.getElementById("next1");
 var next2 = document.getElementById("next2");
 var next3 = document.getElementById("next3");
 var submit = document.getElementById("submit");
-
-
 
 // Get the <span> element that closes the modal
 var span = document.getElementsByClassName("close")[0];
@@ -78,14 +73,6 @@ span.onclick = function() {
     modal1.style.display = "none";
 }
 
-// When the user clicks anywhere outside of the modal, close it
-window.onclick = function(event) {
-    if (event.target == modal) {
-        infoModal.style.display = "none";
-        modal1.style.display = "none";
-    }
-}
-
 
 function startSurvey() {
     if (progress == undefined) {
@@ -100,6 +87,14 @@ function startSurvey() {
 }
 
 function endInfo() {
+
+    var gender = document.getElementById('gender');
+    var english_fluency = document.getElementById('english_fluency');
+    var english_frequency = document.getElementById('english_frequency');
+    info["gender"] = gender.value;
+    info["english_fluency"] = english_fluency.value;
+    info["english_frequency"] = english_frequency.value;
+    console.log(info);
     if (progress == 1) {
         progress = 2
         console.log(2);
@@ -154,83 +149,77 @@ function startRecording() {
     /* Simple constraints object, for more advanced audio features see
 
     https://addpipe.com/blog/audio-constraints-getusermedia/ */
+    /* Disable the record button until we get a success or fail from getUserMedia() */
+
+    if (progress == 2) {
+        recordButton = recordButton1;
+        stopButton = stopButton1;
+
+    } else if (progress == 3) {
+        recordButton = recordButton2;
+        stopButton = stopButton2;
+
+    } else {
+        recordButton = recordButton3;
+        stopButton = stopButton3;
+    }
+
+    recordButton.disabled = true;
+    stopButton.disabled = false;
+
+    /*-----------------*/
 
     var constraints = {
             audio: true,
             video: false
         }
-        /* Disable the record button until we get a success or fail from getUserMedia() */
-
-    if (progress == 2) {
-        recordButton = recordButton1;
-        stopButton = stopButton1;
-        pauseButton = pauseButton1;
-
-    } else if (progress == 3) {
-        recordButton = recordButton2;
-        stopButton = stopButton2;
-        pauseButton = pauseButton2;
-
-    } else {
-        recordButton = recordButton3;
-        stopButton = stopButton3;
-        pauseButton = pauseButton3;
-    }
-
-    recordButton.disabled = true;
-    stopButton.disabled = false;
-    pauseButton.disabled = false
-
-    /* We're using the standard promise based getUserMedia()
-
-    https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia */
-
-    navigator.mediaDevices.getUserMedia(constraints).then(function(stream) {
-        console.log("getUserMedia() success, stream created, initializing Recorder.js ...");
-        /* assign to gumStream for later use */
-        gumStream = stream;
-        /* use the stream */
-        input = audioContext.createMediaStreamSource(stream);
-        /* Create the Recorder object and configure to record mono sound (1 channel) Recording 2 channels will double the file size */
-        rec = new Recorder(input, {
-                numChannels: 1
-            })
+        /* We're using the standard promise based getUserMedia() https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia */
+    navigator.mediaDevices.getUserMedia(constraints).then(
+        function(stream) {
+            console.log("getUserMedia() success, stream created, initializing WebAudioRecorder...");
+            //assign to gumStream for later use 
+            gumStream = stream;
+            /* use the stream */
+            input = audioContext.createMediaStreamSource(stream);
+            //stop the input from playing back through the speakers 
+            input.connect(audioContext.destination)
+                //get the encoding 
+            encodingType = "wav";
+            //disable the encoding selector 
+            recorder = new WebAudioRecorder(input, {
+                encoding: encodingType,
+                onEncoderLoading: function(recorder, encoding) {
+                    // show "loading encoder..." display 
+                    console.log("Loading " + encoding + " encoder...");
+                },
+                onEncoderLoaded: function(recorder, encoding) {
+                    // hide "loading encoder..." display 
+                    console.log(encoding + " encoder loaded");
+                }
+            });
+            recorder.onComplete = function(recorder, blob) {
+                console.log("Encoding complete");
+                createDownloadLink(blob);
+                encodingTypeSelect.disabled = false;
+            }
+            recorder.setOptions({
+                timeLimit: 120,
+                encodeAfterRecord: encodeAfterRecord,
+                ogg: {
+                    quality: 0.5
+                },
+                mp3: {
+                    bitRate: 160
+                }
+            });
             //start the recording process 
-        rec.record()
-        console.log("Recording started");
-    }).catch(function(err) {
-        //enable the record button if getUserMedia() fails 
-        recordButton.disabled = false;
-        stopButton.disabled = true;
-        pauseButton.disabled = true
+            recorder.startRecording();
+            console.log("Recording started");
+        }).catch(function(err) { //enable the record button if getUSerMedia() fails 
     });
 
-
 }
 
-
-function pauseRecording() {
-
-    if (progress == 2) {
-        pauseButton = pauseButton1;
-
-    } else if (progress == 3) {
-        pauseButton = pauseButton2;
-
-    } else {
-        pauseButton = pauseButton3;
-    }
-    console.log("pauseButton clicked rec.recording=", rec.recording);
-    if (rec.recording) {
-        //pause 
-        rec.stop();
-        pauseButton.innerHTML = "Resume";
-    } else {
-        //resume 
-        rec.record()
-        pauseButton.innerHTML = "Pause";
-    }
-}
 
 
 function stopRecording() {
@@ -238,74 +227,59 @@ function stopRecording() {
     if (progress == 2) {
         recordButton = recordButton1;
         stopButton = stopButton1;
-        pauseButton = pauseButton1;
 
     } else if (progress == 3) {
         recordButton = recordButton2;
         stopButton = stopButton2;
-        pauseButton = pauseButton2;
 
     } else {
         recordButton = recordButton3;
         stopButton = stopButton3;
-        pauseButton = pauseButton3;
     }
 
-    console.log("stopButton clicked");
-    //disable the stop button, enable the record too allow for new recordings 
+    console.log("stopRecording() called");
+    //stop microphone access 
+    gumStream.getAudioTracks()[0].stop();
+    //disable the stop button 
     stopButton.disabled = true;
     recordButton.disabled = false;
-    pauseButton.disabled = true;
-    //reset button just in case the recording is stopped while paused 
-    pauseButton.innerHTML = "Pause";
-    //tell the recorder to stop the recording 
-    rec.stop(); //stop microphone access 
-    gumStream.getAudioTracks()[0].stop();
-    //create the wav blob and pass it on to createDownloadLink 
-    rec.exportWAV(createDownloadLink);
+    //tell the recorder to finish the recording (stop recording + encode the recorded audio) 
+    recorder.finishRecording();
+    console.log('Recording stopped');
 }
 
 function createDownloadLink(blob) {
+    console.log("ELA")
+
     var url = URL.createObjectURL(blob);
     var au = document.createElement('audio');
     var li = document.createElement('li');
     var link = document.createElement('a');
-    //add controls to the <audio> element 
+    //add controls to the "audio" element 
     au.controls = true;
-    au.src = url;
-    //link the a element to the blob 
+    au.src = url; //link the a element to the blob 
     link.href = url;
-    link.download = new Date().toISOString() + '.wav';
+    link.download = new Date().toISOString() + 'wav';
     link.innerHTML = link.download;
     //add the new audio and a elements to the li element 
     li.appendChild(au);
-    li.appendChild(link);
-    var filename = new Date().toISOString();
-    //filename to send to server without extension 
-    //upload link 
+    li.appendChild(link); //add the li element to the ordered list 
+
+    var date = new Date().toISOString();
+    var filename = progress.toString() + "_" + info.gender + "_" + info.english_fluency + "_" + info.english_frequency + "_" + date
+        //filename to send to server without extension 
+        //upload link 
     var upload = document.createElement('a');
     upload.href = "#";
     upload.innerHTML = "Upload";
     upload.addEventListener("click", function(event) {
-        /*
-         var xhr = new XMLHttpRequest();
-         xhr.onload = function(e) {
-             if (this.readyState === 4) {
-                 console.log("Server returned: ", e.target.responseText);
-             }
-         };
-         var fd = new FormData();
-         fd.append("audio_data", blob, filename);
-         xhr.open("POST", "/", true);
-         xhr.send(fd);
-         */
 
         var params = {
-            audio_data: blob,
+            audio_blob: blob,
             filename: filename
         }
 
-        post("/", params, "post")
+        post("/", params, "post", true)
     })
     li.appendChild(document.createTextNode(" ")) //add a space in between 
     li.appendChild(upload) //add the upload link to li
@@ -320,8 +294,8 @@ function createDownloadLink(blob) {
     }
 
 }
-
-function post(path, params, method) {
+/*
+function post(path, params, method, blob) {
     method = method || "post"; // Set method to post by default if not specified.
     // The rest of this code assumes you are not using a library.
     // It can be made less wordy if you use one.
@@ -339,4 +313,22 @@ function post(path, params, method) {
     }
     document.body.appendChild(form);
     form.submit();
+}
+*/
+
+
+function post(path, params, method) {
+    method = method || "post"; // Set method to post by default if not specified.
+
+    console.log("ELA");
+    console.log(params);
+    console.log(params.audio_blob);
+    var formData = new FormData();
+    formData.append("audio_blob", params.audio_blob);
+    formData.append("filename", params.filename);
+    console.log(formData);
+    var request = new XMLHttpRequest();
+    request.open("POST", path, true);
+    request.responseType = "arraybuffer";
+    request.send(formData);
 }

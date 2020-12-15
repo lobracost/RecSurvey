@@ -22,9 +22,32 @@
         <div class="modal-content">
             <span class="close">&times;</span>
             <h1>Personal Information</h1>
-            <div id="formAddUser" name="adduser">
-                <input id="inputUserName" type="text" placeholder="username" name="username" />
-                <input id="inputUserEmail" type="text" placeholder="email" name="useremail" />
+            <div id="info" name="info">
+                <label for="gender">Gender:</label>
+                <select id="gender" name="gender" required>
+                  <option value="male">Male</option>
+                  <option value="female">Female</option>
+                  <option value="other">Other</option>
+                </select>
+                <br>
+                <label for="english_fluency">English fluency:</label>
+                <select id="english_fluency" name="english_fluency" required>
+                  <option value="1">Acceptable</option>
+                  <option value="2">Advanced</option>
+                  <option value="3">Proficient</option>
+                  <option value="4">Native</option>
+                </select>
+                <br>
+                <label for="english_frequency">How many times per month do you speak in english or read an english text?:</label>
+                <select id="english_frequency" name="english_frequency" required>
+                  <option value="1">None</option>
+                  <option value="2">Once per year</option>
+                  <option value="3">Once per month</option>
+                  <option value="4">Once per week</option>
+                  <option value="5">Multiple times per week</option>
+                </select>
+                <br>
+
                 <button id="next1">Next 1</button>
             </div>
         </div>
@@ -38,7 +61,6 @@
             <h1>Personal Information</h1>
             <div id="controls">
                 <button id="recordButton1">Record</button>
-                <button id="pauseButton1" disabled>Pause</button>
                 <button id="stopButton1" disabled>Stop</button>
             </div>
             <h3>Recording</h3>
@@ -57,7 +79,6 @@
             <h1>Personal Information</h1>
             <div id="controls">
                 <button id="recordButton2">Record</button>
-                <button id="pauseButton2" disabled>Pause</button>
                 <button id="stopButton2" disabled>Stop</button>
             </div>
             <h3>Recording</h3>
@@ -76,7 +97,6 @@
             <h1>Personal Information</h1>
             <div id="controls">
                 <button id="recordButton3">Record</button>
-                <button id="pauseButton3" disabled>Pause</button>
                 <button id="stopButton3" disabled>Stop</button>
             </div>
 
@@ -88,8 +108,7 @@
 
     </div>
 
-
-    <script src="https://cdn.rawgit.com/mattdiamond/Recorderjs/08e7abd9/dist/recorder.js"></script>
+    <script src="javascripts/WebAudioRecorder.js"></script>
     <script src="javascripts/global.js"></script>
 </body>
 
