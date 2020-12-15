@@ -270,7 +270,7 @@ function createDownloadLink(blob) {
     li.appendChild(link); //add the li element to the ordered list 
 
     var date = new Date().toISOString();
-    var filename = progress.toString() + "_" + info.gender + "_" + info.english_fluency + "_" + info.english_frequency + "_" + date
+    var filename = (progress - 1).toString() + "_" + info.gender + "_" + info.english_fluency + "_" + info.english_frequency + "_" + date
         //filename to send to server without extension 
         //upload link 
     var upload = document.createElement('a');
@@ -358,7 +358,7 @@ function post(path, params, method) {
 
 function post(path, params, method) {
     method = method || "post"; // Set method to post by default if not specified.
-    console("Printing post parameters:")
+    console.log("Printing post parameters:")
     console.log(params);
     console.log(params.audio_blob);
     var formData = new FormData();
