@@ -10,5 +10,7 @@ Provides surveys with recorded answers.
 1. cd RecSurvey
 2. npm start
 
+The server is now running on your terminal. Navigate to https://localhost:5000/ to acess the app from your browser.
+
 ## Make your survey
 
