@@ -9,7 +9,7 @@ router.get('/', function(req, res) {
 });
 
 router.post('/', function(req, res) {
-    console.log("ELA")
+    console.log("Printing request body.")
     console.log(req)
     console.log(req.body)
     console.log(req.body.audio_blob);

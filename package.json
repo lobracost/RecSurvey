@@ -11,12 +11,16 @@
     "debug": "~0.7.4",
     "ejs": "~0.8.5",
     "express": "~4.0.0",
+    "formidable": "^1.2.2",
     "fs": "^0.0.1-security",
     "http": "^0.0.1-security",
     "https": "^1.0.0",
     "morgan": "~1.0.0",
     "node-fetch": "^2.6.1",
+    "path": "^0.12.7",
     "static-favicon": "~1.0.0",
+    "url": "^0.11.0",
+    "util": "^0.12.3",
     "xmlhttprequest": "^1.8.0"
   }
 }

@@ -254,7 +254,6 @@ function stopRecording() {
 }
 
 function createDownloadLink(blob) {
-    console.log("ELA")
 
     var url = URL.createObjectURL(blob);
     var au = document.createElement('audio');
@@ -329,7 +328,7 @@ function post(path, params, method, blob) {
 }
 */
 
-
+/*
 function post(path, params, method) {
     method = method || "post"; // Set method to post by default if not specified.
 
@@ -354,6 +353,30 @@ function post(path, params, method) {
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.responseType = "blob";
     xhr.send(JSON.stringify(params.audio_blob));
+}
+*/
+
+function post(path, params, method) {
+    method = method || "post"; // Set method to post by default if not specified.
+    console("Printing post parameters:")
+    console.log(params);
+    console.log(params.audio_blob);
+    var formData = new FormData();
+    formData.append("audio_blob", params.audio_blob);
+    formData.append("filename", params.filename);
+    console.log(formData.entries());
+    var xhr = new XMLHttpRequest();
+
+    xhr.open("POST", path, true);
+    xhr.onload = () => {
+        // print JSON response
+        if (xhr.status >= 200 && xhr.status < 300) {
+            // parse JSON
+            const response = JSON.parse(xhr.responseText);
+            console.log(response);
+        }
+    };
+    xhr.send(formData);
 }
 
 
