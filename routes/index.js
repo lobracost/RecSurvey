@@ -5,10 +5,12 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res) {
-    res.render('index', { title: 'Express' });
+    res.render('index');
 });
 
 router.post('/', function(req, res) {
+    console.log("ELA")
+    console.log(req)
     console.log(req.body)
     console.log(req.body.audio_blob);
     get_audio(req, res)
@@ -38,13 +40,6 @@ function get_audio(req, res) {
         }
     });
 
-}
-
-function blobToFile(theBlob, fileName) {
-    //A Blob() is almost a File() - it's just missing the two properties below which we will add
-    theBlob.lastModifiedDate = new Date();
-    theBlob.name = fileName;
-    return theBlob;
 }
 
 module.exports = router;

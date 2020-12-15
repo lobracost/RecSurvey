@@ -50,7 +50,12 @@ var start = document.getElementById("start");
 var next1 = document.getElementById("next1");
 var next2 = document.getElementById("next2");
 var next3 = document.getElementById("next3");
-var submit = document.getElementById("submit");
+var finish = document.getElementById("finish");
+
+next2.disabled = true;
+next3.disabled = true;
+finish.disabled = true;
+
 
 // Get the <span> element that closes the modal
 var span = document.getElementsByClassName("close")[0];
@@ -65,7 +70,7 @@ next2.addEventListener("click", endFirst)
 
 next3.addEventListener("click", endSecond)
 
-submit.addEventListener("click", endSurvey)
+finish.addEventListener("click", endSurvey)
 
 // When the user clicks on <span> (x), close the modal
 span.onclick = function() {
@@ -280,6 +285,14 @@ function createDownloadLink(blob) {
         }
 
         post("/", params, "post", true)
+        if (progress == 2) {
+            next2.disabled = false;
+        } else if (progress == 3) {
+            next3.disabled = false;
+        } else {
+            finish.disabled = false;
+        }
+
     })
     li.appendChild(document.createTextNode(" ")) //add a space in between 
     li.appendChild(upload) //add the upload link to li
@@ -327,8 +340,46 @@ function post(path, params, method) {
     formData.append("audio_blob", params.audio_blob);
     formData.append("filename", params.filename);
     console.log(formData);
-    var request = new XMLHttpRequest();
-    request.open("POST", path, true);
-    request.responseType = "arraybuffer";
-    request.send(formData);
+    var xhr = new XMLHttpRequest();
+    xhr.onload = () => {
+
+        // print JSON response
+        if (xhr.status >= 200 && xhr.status < 300) {
+            // parse JSON
+            const response = JSON.parse(xhr.responseText);
+            console.log(response);
+        }
+    };
+    xhr.open("POST", path, true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.responseType = "blob";
+    xhr.send(JSON.stringify(params.audio_blob));
 }
+
+
+/*
+function post(path, params, method) {
+    method = method || "post"; // Set method to post by default if not specified.
+
+    console.log("ELA");
+    console.log(params);
+    console.log(params.audio_blob);
+    const json = {
+        audio_blob: params.audio_blob,
+        filename: params.filename
+    };
+    const options = {
+        method: 'POST',
+        body: JSON.stringify(json),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }
+
+    fetch('/', options)
+        .then(res => res.json())
+        .then(res => console.log(res))
+        .catch(err => console.error(err));
+
+}
+*/
