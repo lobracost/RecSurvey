@@ -306,103 +306,20 @@ function createDownloadLink(blob) {
     }
 
 }
-/*
-function post(path, params, method, blob) {
-    method = method || "post"; // Set method to post by default if not specified.
-    // The rest of this code assumes you are not using a library.
-    // It can be made less wordy if you use one.
-    var form = document.createElement("form");
-    form.setAttribute("method", method);
-    form.setAttribute("action", path);
-    for (var key in params) {
-        if (params.hasOwnProperty(key)) {
-            var hiddenField = document.createElement("input");
-            hiddenField.setAttribute("type", "hidden");
-            hiddenField.setAttribute("name", key);
-            hiddenField.setAttribute("value", params[key]);
-            form.appendChild(hiddenField);
-        }
-    }
-    document.body.appendChild(form);
-    form.submit();
-}
-*/
-
-/*
-function post(path, params, method) {
-    method = method || "post"; // Set method to post by default if not specified.
-
-    console.log("ELA");
-    console.log(params);
-    console.log(params.audio_blob);
-    var formData = new FormData();
-    formData.append("audio_blob", params.audio_blob);
-    formData.append("filename", params.filename);
-    console.log(formData);
-    var xhr = new XMLHttpRequest();
-    xhr.onload = () => {
-
-        // print JSON response
-        if (xhr.status >= 200 && xhr.status < 300) {
-            // parse JSON
-            const response = JSON.parse(xhr.responseText);
-            console.log(response);
-        }
-    };
-    xhr.open("POST", path, true);
-    xhr.setRequestHeader('Content-Type', 'application/json');
-    xhr.responseType = "blob";
-    xhr.send(JSON.stringify(params.audio_blob));
-}
-*/
 
 function post(path, params, method) {
-    method = method || "post"; // Set method to post by default if not specified.
-    console.log("Printing post parameters:")
-    console.log(params);
-    console.log(params.audio_blob);
-    var formData = new FormData();
-    formData.append("audio_blob", params.audio_blob);
-    formData.append("filename", params.filename);
-    console.log(formData.entries());
-    var xhr = new XMLHttpRequest();
-
-    xhr.open("POST", path, true);
-    xhr.onload = () => {
-        // print JSON response
-        if (xhr.status >= 200 && xhr.status < 300) {
-            // parse JSON
-            const response = JSON.parse(xhr.responseText);
-            console.log(response);
-        }
-    };
-    xhr.send(formData);
+    var fd = new FormData();
+    fd.append('filename', params.filename);
+    fd.append('audio_blob', params.audio_blob);
+    console.log(fd.get("audio_blob"))
+    console.log(fd.get("filename"))
+    $.ajax({
+        type: 'POST',
+        url: path,
+        data: fd,
+        processData: false,
+        contentType: false
+    }).done(function(data) {
+        console.log(data);
+    })
 }
-
-
-/*
-function post(path, params, method) {
-    method = method || "post"; // Set method to post by default if not specified.
-
-    console.log("ELA");
-    console.log(params);
-    console.log(params.audio_blob);
-    const json = {
-        audio_blob: params.audio_blob,
-        filename: params.filename
-    };
-    const options = {
-        method: 'POST',
-        body: JSON.stringify(json),
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    }
-
-    fetch('/', options)
-        .then(res => res.json())
-        .then(res => console.log(res))
-        .catch(err => console.error(err));
-
-}
-*/

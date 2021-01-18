@@ -1,4 +1,6 @@
 var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
+var formidable = require('formidable');
+var util = require('util')
 var fs = require('fs');
 var express = require('express');
 var router = express.Router();
@@ -9,34 +11,24 @@ router.get('/', function(req, res) {
 });
 
 router.post('/', function(req, res) {
-    console.log("Printing request body.")
-    console.log(req)
-    console.log(req.body)
-    console.log(req.body.audio_blob);
-    get_audio(req, res)
-    res.send(200)
+    var form = new formidable.IncomingForm();
+
+    form.parse(req, function(err, fields, files) {
+        res.writeHead(200, { 'content-type': 'image/jpeg' });
+        res.write('received upload:\n\n');
+        res.end(util.inspect({ fields: fields, files: files }));
+        console.log(fields)
+        console.log(files)
+        get_audio(fields.filename, files.audio_blob)
+    });
 });
 
-function get_audio(req, res) {
-    blob = req.body.audio_blob;
-    filename = req.body.filename;
-    /*
-    var xhr = new XMLHttpRequest();
-    xhr.open('GET', audio_link, true);
-    xhr.responseType = 'blob';
-    xhr.onload = function(e) {
-        if (this.status == 200) {
-            var blob = this.response;
-            // myBlob is now the blob that the object URL pointed to.
-        }
-    };
-    xhr.send();
-    */
-    fs.writeFile("recordings/" + filename + ".wav", blob, function(err) {
+function get_audio(filename, audio_blob) {
+    fs.rename(audio_blob.path, "recordings/" + filename + ".wav", function(err) {
         if (err) {
             console.log("err", err);
         } else {
-            return res.json({ 'status': 'success' });
+            console.log('Audio file saved successfully')
         }
     });
 
