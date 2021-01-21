@@ -12,7 +12,7 @@ var input;
 //holds selected encoding for resulting audio (file) 
 var encodeAfterRecord = true;
 // when to encode 
-var audioContext = new AudioContext;
+var audioContext;
 
 
 //new audio context to help us record 
@@ -185,6 +185,7 @@ function startRecording() {
             //assign to gumStream for later use 
             gumStream = stream;
             /* use the stream */
+            audioContext = new AudioContext
             input = audioContext.createMediaStreamSource(stream);
             //stop the input from playing back through the speakers 
             input.connect(audioContext.destination)
@@ -203,9 +204,9 @@ function startRecording() {
                 }
             });
             recorder.onComplete = function(recorder, blob) {
+                gumStream.getAudioTracks()[0].stop();
                 console.log("Encoding complete");
                 createDownloadLink(blob);
-                encodingTypeSelect.disabled = false;
             }
             recorder.setOptions({
                 timeLimit: 120,
