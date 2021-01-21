@@ -209,14 +209,8 @@ function startRecording() {
                 createDownloadLink(blob);
             }
             recorder.setOptions({
-                timeLimit: 120,
+                timeLimit: 600,
                 encodeAfterRecord: encodeAfterRecord,
-                ogg: {
-                    quality: 0.5
-                },
-                mp3: {
-                    bitRate: 160
-                }
             });
             //start the recording process 
             recorder.startRecording();
