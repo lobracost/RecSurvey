@@ -32,7 +32,7 @@
             timeLimit: 300, // recording time limit (sec)
             encodeAfterRecord: false, // process encoding after recording
             progressInterval: 1000, // encoding progress report interval (millisec)
-            bufferSize: undefined, // buffer size (use browser default)
+            bufferSize: 4096, // buffer size (use browser default)
 
             // encoding-specific options
             wav: {

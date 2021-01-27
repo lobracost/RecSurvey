@@ -188,8 +188,8 @@ function startRecording() {
             audioContext = new AudioContext
             input = audioContext.createMediaStreamSource(stream);
             //stop the input from playing back through the speakers 
-            input.connect(audioContext.destination)
-                //get the encoding 
+            //input.connect(audioContext.destination)
+            //get the encoding 
             encodingType = "wav";
             //disable the encoding selector 
             recorder = new WebAudioRecorder(input, {
