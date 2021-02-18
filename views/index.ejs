@@ -3,125 +3,135 @@
 
 <head>
     <title>Record Survey</title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link rel='stylesheet' href='/stylesheets/style.css' /> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
-<body>
-    <h1>
-        Record Survey
-    </h1>
-
-    <p>Fill Instructions here</p>
-
-    <!-- Trigger/Open The Modal -->
-    <button id="start">Begin Survey</button>
-
+<body>  
+	<ul>
+  		<li><button id="inbutton"><i class="fa fa-home"></i> Instructions</button></li>
+		<li><button id="demog"><i class="fa fa-venus-mars"></i> Demographics</button></li>
+  		<li><button id="startrec"><i class="fa fa-play"></i> Let' s start</button></li>
+	</ul>
+	
+    <div id="instruction" class="modal">
+    	<div class="modal-content"> 
+    		<span class="close1">&times;</span>
+    		<p class="inst">This application aims to collect data for research purposes. The project focuses on evaluating the quality of speech. You are asked to fill in some demographic characteristics, record yourself while reading 20 different texts that will appear on your screen and then record yourself while freely answering 5 questions. All in English. 
+    		</p>	
+    		<p class="inst">Enjoy!!</p>
+    	</div>    	
+    </div>
     <!-- The Modal -->
     <div id="infoModal" class="modal">
-
         <!-- Modal content -->
         <div class="modal-content">
-            <span class="close">&times;</span>
+            <span class="close2">&times;</span>
             <h1>Personal Information</h1>
-            <p>Fill Instructions here</p>
-            <div id="info" name="info">
-                <label for="gender">Gender:</label>
-                <select id="gender" name="gender" required>
-                  <option value="male">Male</option>
-                  <option value="female">Female</option>
-                  <option value="other">Other</option>
-                </select>
-                <br>
-                <label for="english_fluency">English fluency:</label>
-                <select id="english_fluency" name="english_fluency" required>
-                  <option value="1">Acceptable</option>
-                  <option value="2">Advanced</option>
-                  <option value="3">Proficient</option>
-                  <option value="4">Native</option>
-                </select>
-                <br>
-                <label for="english_frequency">How many times per month do you speak in english or read an english text?:</label>
-                <select id="english_frequency" name="english_frequency" required>
-                  <option value="1">None</option>
-                  <option value="2">Once per year</option>
-                  <option value="3">Once per month</option>
-                  <option value="4">Once per week</option>
-                  <option value="5">Multiple times per week</option>
-                </select>
-                <br>
-
-                <button id="next1">Next</button>
+            <div id="info" name="info"> 
+            	<form id="signup">
+	            	<ul>
+	            		<div class="form-field">
+			            	<li><label for="name">Name:</label>
+			                <input type="text" id="name" name="name" required/></li>
+			                <small></small>
+			            </div>
+			            <li><label for="gender">Gender:</label>
+		                <select id="gender" name="gender" required/>
+		                  <option value="male">Male</option>
+		                  <option value="female">Female</option>
+		                  <option value="other">Other</option>
+		                </select></li>
+		                <br> 
+		                <br>
+		                <li><label for="age">Age:</label>
+		                <input type="number" id="age" name="age" value="20" required/></li>
+		                <li><label for="english_fluency">English fluency:</label>
+		                <select id="english_fluency" name="english_fluency" required/>
+		                  <option value="1">Acceptable</option>
+		                  <option value="2">Advanced</option>
+		                  <option value="3">Proficient</option>
+		                  <option value="4">Native</option>
+		                </select></li>
+		                <br>
+		                <br>
+		                <li><label for="english_frequency">How many times do you speak in english or read an english text?</label>
+		                <select id="english_frequency" name="english_frequency" required/>
+		                  <option value="1">None</option>
+		                  <option value="2">Once per year</option>
+		                  <option value="3">Once per month</option>
+		                  <option value="4">Once per week</option>
+		                  <option value="5">Multiple times per week</option>
+		                </select></li>
+		                <br> 
+		                <br>
+		                <li><label for="anxiety">Do you feel anxious when speaking in public?</label>
+		                <select id="anxiety" name="anxiety" required/>
+		                  <option value="1">Not at all</option>
+		                  <option value="2">Little</option>
+		                  <option value="3">Much</option>
+		                </select></li>
+		                <br> 
+		                <br>
+		                <li><label for="introvert">Are you introvert or extrovert (on whether practicing comunicational skills)?</label>
+		                <select id="introvert" name="introvert" required/>
+		                  <option value="1">Introvert</option>
+		                  <option value="2">Extrovert</option>
+		                </select></li>
+		                <br> 
+		                <br>
+		                <li><label for="humor">What's the level of your sense of humor?</label>
+		                <select id="humor" name="humor" required/>
+		                  <option value="1">1</option>
+		                  <option value="2">2</option>
+		                  <option value="3">3</option>
+		                </select></li>
+		                <br>  
+		                <br>
+		                <li><label for="argue">How much easy is it for you to find examples/argue/justify?</label>
+		                <select id="argue" name="argue" required/>
+		                  <option value="1">Not at all</option>
+		                  <option value="2">Little</option>
+		                  <option value="3">Much</option>
+		                </select></li>
+		                <br> 
+		                <br>
+		                <li><label for="conflicts">What is your attitude towards conflicts?</label>
+		                <select id="conflicts" name="conflicts" required/>
+		                  <option value="1">Avoid</option>
+		                  <option value="2">Accept</option>
+		                  <option value="3">Cause</option>
+		                </select></li>
+		                <br>
+		                <br>
+		            </ul>
+	                <input type="submit" id="submit" value="Submit"/>
+                </form>
             </div>
         </div>
-
     </div>
 
     <div id="modal1" class="modal">
-
         <!-- Modal content -->
         <div class="modal-content">
-            <h1>First Task</h1>
-            <p>Please wear your headphones, speak close to the microphone and mute your speakers during the recordings.</p>
-            <p>Record as many times as you wish.</p>
-            <p>Listen to your recordings and then upload the best one.</p>
-            <p>You can then proceed to the next task.</p>
+            <h1>Task</h1>
+            <p class="subheader">Please wear your headphones and speak close to the microphone. 
+            Read the text and record as many times as you wish.
+            Listen to your recordings and then upload the best one.
+            You can then proceed to the next task.</p> 
 
+           	<p id="trivia"></p>
 
             <div id="controls">
-                <button id="recordButton1">Record</button>
-                <button id="stopButton1" disabled>Stop</button>
+                <button id="recordButton1"><span class="noselect">Record</span><span id="circle"></span></button>
+   				<button id="stopButton1" disabled><span class="noselect">Stop<span id="circle"></span></button>
             </div>
-            <h3>Recording</h3>
+            <br>
+            <h3>Recordings</h3>
             <ol id="recordingsList1"></ol>
 
             <button id="next2">Next</button>
         </div>
-
-    </div>
-
-
-    <div id="modal2" class="modal">
-
-        <!-- Modal content -->
-        <div class="modal-content">
-            <h1>Second Task</h1>
-            <p>Please wear your headphones, speak close to the microphone and mute your speakers during the recordings.</p>
-            <p>Record as many times as you wish.</p>
-            <p>Listen to your recordings and then upload the best one.</p>
-            <p>You can then proceed to the next task.</p>
-            <div id="controls">
-                <button id="recordButton2">Record</button>
-                <button id="stopButton2" disabled>Stop</button>
-            </div>
-            <h3>Recording</h3>
-            <ol id="recordingsList2"></ol>
-
-            <button id="next3">Next</button>
-        </div>
-
-    </div>
-
-
-    <div id="modal3" class="modal">
-
-        <!-- Modal content -->
-        <div class="modal-content">
-            <h1>Third Task</h1>
-            <p>Please wear your headphones, speak close to the microphone and mute your speakers during the recordings.</p>
-            <p>Record as many times as you wish.</p>
-            <p>Listen to your recordings and then upload the best one.</p>
-            <p>You can then proceed to the next task.</p>
-            <div id="controls">
-                <button id="recordButton3">Record</button>
-                <button id="stopButton3" disabled>Stop</button>
-            </div>
-
-            <h3>Recording</h3>
-            <ol id="recordingsList3"></ol>
-
-            <button id="finish">Finish</button>
-        </div>
-
     </div>
 
     <script src="javascripts/WebAudioRecorder.js"></script>

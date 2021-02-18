@@ -2,8 +2,12 @@ var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 var formidable = require('formidable');
 var util = require('util')
 var fs = require('fs');
+var path = require('path');
 var express = require('express');
 var router = express.Router();
+
+var mv = require('mv');
+
 
 /* GET home page. */
 router.get('/', function(req, res) {
@@ -24,7 +28,7 @@ router.post('/', function(req, res) {
 });
 
 function get_audio(filename, audio_blob) {
-    fs.rename(audio_blob.path, "recordings/" + filename + ".wav", function(err) {
+    mv(audio_blob.path, "recordings/" + filename + ".wav", function(err) {
         if (err) {
             console.log("err", err);
         } else {
@@ -32,6 +36,28 @@ function get_audio(filename, audio_blob) {
         }
     });
 
+} 
+
+
+
+router.get('/texts', function(req, res) { 
+    var integer = randomInt(1,20).toString(); 
+
+    var filePath = 'texts/' + integer + '.txt' ;
+    //path.join(__dirname, 'texts/1.txt');
+    fs.readFile(filePath,"utf8", function(e, data){
+        if (e) {
+            console.log("e",e);
+        } else { 
+            var data = data.toString();
+            res.send({"data":data,"int":integer}); 
+        } 
+    });
+});
+
+
+function randomInt(low, high) {
+  return Math.floor(Math.random() * (high - low) + low)
 }
 
 module.exports = router;

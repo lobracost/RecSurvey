@@ -14,139 +14,187 @@ var encodeAfterRecord = true;
 // when to encode 
 var audioContext;
 
+var number_of_text;
 
 //new audio context to help us record 
 var recordButton1 = document.getElementById("recordButton1");
 var stopButton1 = document.getElementById("stopButton1");
 var recordingsList1 = document.getElementById("recordingsList1");
 
-var recordButton2 = document.getElementById("recordButton2");
-var stopButton2 = document.getElementById("stopButton2");
-var recordingsList2 = document.getElementById("recordingsList2");
-
-var recordButton3 = document.getElementById("recordButton3");
-var stopButton3 = document.getElementById("stopButton3");
-var recordingsList3 = document.getElementById("recordingsList3");
 
 //add events to those 3 buttons 
 recordButton1.addEventListener("click", startRecording);
 stopButton1.addEventListener("click", stopRecording);
 
-recordButton2.addEventListener("click", startRecording);
-stopButton2.addEventListener("click", stopRecording);
-
-recordButton3.addEventListener("click", startRecording);
-stopButton3.addEventListener("click", stopRecording);
-
 
 // Get the modal
+var instruction = document.getElementById("instruction")
 var infoModal = document.getElementById("infoModal");
 var modal1 = document.getElementById("modal1");
-var modal2 = document.getElementById("modal2");
-var modal3 = document.getElementById("modal3");
+
 
 // Get the button that opens the modal
-var start = document.getElementById("start");
-var next1 = document.getElementById("next1");
+var inbutton = document.getElementById("inbutton")
+var demog = document.getElementById("demog");
+var startrec = document.getElementById("startrec");
 var next2 = document.getElementById("next2");
-var next3 = document.getElementById("next3");
-var finish = document.getElementById("finish");
+
 
 next2.disabled = true;
-next3.disabled = true;
-finish.disabled = true;
+
+
+//Get the button that submits the demographic info
+var submit = document.getElementById("submit")
 
 
 // Get the <span> element that closes the modal
-var span = document.getElementsByClassName("close")[0];
+var span1 = document.getElementsByClassName("close1")[0];
+var span2 = document.getElementsByClassName("close2")[0]; 
 
 // When the user clicks on the button, open the modal
+inbutton.addEventListener("click",inst) 
 
-start.addEventListener("click", startSurvey)
+demog.addEventListener("click", startSurvey)
 
-next1.addEventListener("click", endInfo)
 
-next2.addEventListener("click", endFirst)
+//startrec.addEventListener("click", function(event) { get('/texts')})
 
-next3.addEventListener("click", endSecond)
+startrec.addEventListener("click", startFirst) 
 
-finish.addEventListener("click", endSurvey)
+/*startrec.addEventListener("click", get("/texts"))*/
+
+next2.addEventListener("click", next_text)
+
+//When the user clicks in sumbimmitin demographic info 
+submit.addEventListener("click",submiting)
+
 
 // When the user clicks on <span> (x), close the modal
-span.onclick = function() {
+span1.onclick = function() {
+    instruction.style.display = "none";
+    /*inbutton.style.display ="block";*/ 
+    infoModal.style.display = "none";
+    modal1.style.display = "none";
+}
+span2.onclick = function() {
     infoModal.style.display = "none";
     modal1.style.display = "none";
 }
 
+function inst(){
+    instruction.style.display = "block";
+    infoModal.style.display = "none";
+    modal1.style.display = "none";
+    console.log(1);
+}
+
+/*
+
+const isRequired = value => value === '' ? false : true;
+
+const showError = (input, message) => {
+    // get the form-field element
+    const formField = input.parentElement;
+    // add the error class
+    formField.classList.remove('success');
+    formField.classList.add('error');
+
+    // show the error message
+    const error = formField.querySelector('small');
+    error.textContent = message;
+};
+const usernameEl = document.querySelector('#name'); 
+const username = usernameEl.value.trim();
+
+const showSuccess = (input) => {
+    // get the form-field element
+    const formField = input.parentElement;
+
+    // remove the error class
+    formField.classList.remove('error');
+    formField.classList.add('success');
+
+    // hide the error message
+    const error = formField.querySelector('small');
+    error.textContent = '';
+};
+
+*/
 
 function startSurvey() {
     if (progress == undefined) {
-        progress = 1
-        start.style.display = "none"
+
         infoModal.style.display = "block";
         modal1.style.display = "none";
-        modal2.style.display = "none";
-        modal3.style.display = "none";
         console.log(1);
     }
 }
 
-function endInfo() {
+/*
 
-    var gender = document.getElementById('gender');
+const form = document.querySelector('#signup');
+
+form.addEventListener('input', function (e) { 
+    switch (e.target.id) {
+        case 'name':
+            if (!isRequired(username)) {
+                showError(usernameEl, 'Username cannot be blank.');
+            }else { 
+                showSuccess(usernameEl);
+            } 
+            break;
+    }
+})
+*/
+
+function submiting(){ 
+    var name =  document.getElementById('name'); 
+    var gender = document.getElementById('gender'); 
+    var age    = document.getElementById('age');
     var english_fluency = document.getElementById('english_fluency');
     var english_frequency = document.getElementById('english_frequency');
-    info["gender"] = gender.value;
+    var anxiety =  document.getElementById('anxiety'); 
+    var introvert =  document.getElementById('introvert'); 
+    var humor =  document.getElementById('humor'); 
+    var argue =  document.getElementById('argue'); 
+    var conflicts =  document.getElementById('conflicts'); 
+    info["name"] = name.value; 
+    info["gender"] = gender.value; 
+    info["age"] = age.value;
     info["english_fluency"] = english_fluency.value;
     info["english_frequency"] = english_frequency.value;
-    console.log(info);
+    info["anxiety"] = anxiety.value; 
+    info["introvert"] = introvert.value; 
+    info["humor"] = humor.value;  
+    info["argue"] = argue.value; 
+    info["conflicts"] = conflicts.value; 
+    console.log(info); 
+    instruction.style.display = "none"
+    infoModal.style.display = "block";
+    modal1.style.display = "none";
+    submit.disabled = true; 
+    progress = 1;
+    
+} 
+
+function startFirst() {
     if (progress == 1) {
-        progress = 2
-        console.log(2);
-        start.style.display = "none"
-        infoModal.style.display = "none";
+        get('/texts');
+        infoModal.style.display = "none"; 
         modal1.style.display = "block";
-        modal2.style.display = "none";
-        modal3.style.display = "none";
     }
 }
 
-
-function endFirst() {
-    if (progress == 2) {
-        progress = 3
-        console.log(3);
-        start.style.display = "none"
-        infoModal.style.display = "none";
-        modal1.style.display = "none";
-        modal2.style.display = "block";
-        modal3.style.display = "none";
+function next_text(){ 
+    //modal1.style.display = "block";
+    while (recordingsList1.firstChild) {
+        recordingsList1.removeChild(recordingsList1.lastChild);
     }
-}
-
-
-function endSecond() {
-    if (progress == 3) {
-        progress = 4
-        console.log(4);
-        start.style.display = "none"
-        infoModal.style.display = "none";
-        modal1.style.display = "none";
-        modal2.style.display = "none";
-        modal3.style.display = "block";
-    }
-}
-
-function endSurvey() {
-    if (progress == 4) {
-        progress = 5
-        console.log(4);
-        start.style.display = "none"
-        infoModal.style.display = "none";
-        modal1.style.display = "none";
-        modal2.style.display = "none";
-        modal3.style.display = "none";
-    }
+    //recordingsList1.removeChild(li);
+    get('/texts');
+    next2.disabled = true;
+    //infoModal.style.display = "none"; 
+    //
 }
 
 function startRecording() {
@@ -156,18 +204,8 @@ function startRecording() {
     https://addpipe.com/blog/audio-constraints-getusermedia/ */
     /* Disable the record button until we get a success or fail from getUserMedia() */
 
-    if (progress == 2) {
-        recordButton = recordButton1;
-        stopButton = stopButton1;
-
-    } else if (progress == 3) {
-        recordButton = recordButton2;
-        stopButton = stopButton2;
-
-    } else {
-        recordButton = recordButton3;
-        stopButton = stopButton3;
-    }
+    recordButton = recordButton1;
+    stopButton = stopButton1;
 
     recordButton.disabled = true;
     stopButton.disabled = false;
@@ -224,18 +262,9 @@ function startRecording() {
 
 function stopRecording() {
 
-    if (progress == 2) {
-        recordButton = recordButton1;
-        stopButton = stopButton1;
+    recordButton = recordButton1;
+    stopButton = stopButton1;
 
-    } else if (progress == 3) {
-        recordButton = recordButton2;
-        stopButton = stopButton2;
-
-    } else {
-        recordButton = recordButton3;
-        stopButton = stopButton3;
-    }
 
     console.log("stopRecording() called");
     //stop microphone access 
@@ -265,7 +294,8 @@ function createDownloadLink(blob) {
     li.appendChild(link); //add the li element to the ordered list 
 
     var date = new Date().toISOString();
-    var filename = (progress - 1).toString() + "_" + info.gender + "_" + info.english_fluency + "_" + info.english_frequency + "_" + date
+    var filename = number_of_text + "_" + info.name + "_" + info.gender + "_"+ info.age + "_" + info.english_fluency + "_" + info.english_frequency + "_" + info.anxiety + "_" + info.introvert + "_" + info.humor + "_" + info.argue + "_" + info.conflicts + "_" + date
+
         //filename to send to server without extension 
         //upload link 
     var upload = document.createElement('a');
@@ -278,28 +308,15 @@ function createDownloadLink(blob) {
             filename: filename
         }
 
-        post("/", params, "post", true)
-        if (progress == 2) {
-            next2.disabled = false;
-        } else if (progress == 3) {
-            next3.disabled = false;
-        } else {
-            finish.disabled = false;
-        }
+        post("/", params, "post", true) 
 
+        next2.disabled = false;
     })
     li.appendChild(document.createTextNode(" ")) //add a space in between 
     li.appendChild(upload) //add the upload link to li
 
     //add the li element to the ordered list 
-    if (progress == 2) {
-        recordingsList1.appendChild(li);
-    } else if (progress == 3) {
-        recordingsList2.appendChild(li);
-    } else {
-        recordingsList3.appendChild(li);
-    }
-
+    recordingsList1.appendChild(li);
 }
 
 function post(path, params, method) {
@@ -317,4 +334,21 @@ function post(path, params, method) {
     }).done(function(data) {
         console.log(data);
     })
+} 
+
+
+function get(url_to_text){ 
+    $.ajax({ 
+        type: 'GET',
+        dataType : "json",
+        url: url_to_text, 
+        processData: false,
+        contentType: false
+    }).done(function(content) {
+                // show the corresponding text 
+                number_of_text = content.int;
+                $('#trivia').text(content.data); 
+                console.log(content)
+           });
 }
+

@@ -1,11 +1,24 @@
 body {
-    padding: 50px;
-    font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+    padding: 170px;
+    font: 14px "Lucida Grande", Helvetica, Arial, sans-serif; 
+    margin: 0; 
+    /*
+    https://external-preview.redd.it/V9t1RtDyGM06T47XOEazLbC4VqtIVNgdtle8_HNKyvc.jpg?width=960&crop=smart&auto=webp&s=fac0083ae732def97b6517d7e169c42cd54668f7
+    https://dribbble.com/shots/1490734-Record-Player
+
+    */
+    background: url(https://3dwarehouse.sketchup.com/warehouse/v1.0/publiccontent/1aaeed10-90b9-484c-a575-79e1bad18ac3) no-repeat center center fixed; 
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
 }
 
+/*
 a {
     color: #00B7FF;
 }
+*/
 
 input {
     display: block;
@@ -16,7 +29,26 @@ input {
     margin: 2px 0 20px 10px;
 }
 
+#trivia {
+  font: italic 14pt Arial;
+}
 
+#inbutton,#demog,#startrec{ 
+    font-size: 15px;
+    font-family: Times;
+    border-radius: 5px;
+    padding: 5px 10px; 
+    background-color: white;
+    color: black;
+    border: none;
+    margin: 10px;
+}
+
+#inbutton:hover,#demog:hover,#startrec:hover {
+  background-color: #FFFF00; /* Green */
+  color: black; 
+  box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+}
 /* The Modal (background) */
 
 .modal {
@@ -44,7 +76,7 @@ input {
 /* Modal Content/Box */
 
 .modal-content {
-    background-color: #fefefe;
+    background-color: #F0FFF0;
     margin: 15% auto;
     /* 15% from the top and centered */
     padding: 20px;
@@ -69,3 +101,165 @@ input {
     text-decoration: none;
     cursor: pointer;
 }
+
+h1 {
+    color: #7c795d; 
+    font-family: 'Trocchi', serif; 
+    font-size: 45px; 
+    font-weight: normal; 
+    line-height: 48px; 
+    margin: 0;
+    text-align:center;
+    /*text-align:center;
+    background-color: lightgrey;
+    color: blue;
+    */
+}
+
+.subheader { 
+    font-size: 16px;
+    font-weight: 500; 
+    color: #ff9900;
+    margin: 0 0 24px; 
+    text-align:center;
+    white-space: pre-line;
+}
+.inst{
+    text-align:center;
+}
+
+h3 {
+    color: #7c795d; 
+    font-family: 'Source Sans Pro', sans-serif; 
+    font-size: 23px; 
+    font-weight: 400; 
+    line-height: 32px; 
+    margin: 0 0 24px; 
+    text-align:center;
+} 
+
+p { 
+    color: #29281e;
+    /*color: #4c4a37; */
+    font-family: 'Source Sans Pro', sans-serif; 
+    font-size: 18px; 
+    line-height: 32px; 
+    margin: 0 0 24px; 
+}
+
+
+a { 
+    color: #7FFFD4; 
+    /*background: #fff4a3;*/
+    text-decoration: none; 
+}
+
+
+a:hover { 
+    color: #ffcc66 
+}
+
+#submit,#controls {
+    margin: 0;
+    position: absolute;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+
+
+
+#recordButton1,#stopButton1 {
+  background: #383535;
+  height: 20px;
+  min-width: 50px;
+  border: none;
+  border-radius: 10px;
+  color: #7FFFD4;
+  font-size: 13px;
+  font-family: 'Cookie', cursive;
+  position: relative;
+  transition: 1s;
+  -webkit-tap-highlight-color: transparent;
+  /*display: flex;*/
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding-top: 5px;
+}
+
+#recordButton1 #circle,#stopButton1 #circle {
+  width: 5px;
+  height: 5px;
+  background: transparent;
+  border-radius: 50%;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  overflow: hidden;
+  transition: 500ms;
+}
+
+.noselect {
+  -webkit-touch-callout: none;
+    -webkit-user-select: none;
+     -khtml-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none;
+}
+
+#recordButton1:hover,#stopButton1:hover{
+  background: transparent;
+}
+
+#recordButton1:hover #circle,#stopButton1:hover #circle{
+  height: 20px;
+  width: 50px;
+  left: 0;
+  border-radius: 0;
+  border-bottom: 2px solid #eee;
+}
+
+
+
+/*
+
+.form-field {
+    margin-bottom: 5px;
+
+}
+
+.form-field label {
+    display: block;
+    color: #777;
+    margin-bottom: 5px;
+}
+
+.form-field input {
+    border: solid 2px #f0f0f0;
+    border-radius: 3px;
+    padding: 10px;
+    margin-bottom: 5px;
+    font-size: 14px;
+    display: block;
+    width: 100%;
+}
+
+.form-field input:focus {
+    outline: none;
+}
+
+.form-field.error input {
+    border-color: var(--error-color);
+}
+
+.form-field.success input {
+    border-color: var(--success-color);
+}
+
+
+.form-field small {
+    color: var(--error-color);
+}
+*/
