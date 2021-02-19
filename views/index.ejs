@@ -26,14 +26,14 @@
     <div id="infoModal" class="modal">
         <!-- Modal content -->
         <div class="modal-content">
-            <span class="close2">&times;</span>
+            <!-- <span class="close2">&times;</span> -->
             <h1>Personal Information</h1>
             <div id="info" name="info"> 
             	<form id="signup">
 	            	<ul>
 	            		<div class="form-field">
 			            	<li><label for="name">Name:</label>
-			                <input type="text" id="name" name="name" required/></li>
+			                <input type="text" id="name" name="name" value="None" required/></li>
 			                <small></small>
 			            </div>
 			            <li><label for="gender">Gender:</label>
@@ -123,8 +123,8 @@
            	<p id="trivia"></p>
 
             <div id="controls">
-                <button id="recordButton1"><span class="noselect">Record</span><span id="circle"></span></button>
-   				<button id="stopButton1" disabled><span class="noselect">Stop<span id="circle"></span></button>
+                <button id="recordButton1"><span class="noselect">Record</span><div id="circle"></div></button>
+   				<button id="stopButton1"><span class="noselect">Stop</span><div id="circle"></div></button>
             </div>
             <br>
             <h3>Recordings</h3>

@@ -39,7 +39,7 @@ var demog = document.getElementById("demog");
 var startrec = document.getElementById("startrec");
 var next2 = document.getElementById("next2");
 
-
+stopButton1.disabled = true;
 next2.disabled = true;
 
 
@@ -49,7 +49,7 @@ var submit = document.getElementById("submit")
 
 // Get the <span> element that closes the modal
 var span1 = document.getElementsByClassName("close1")[0];
-var span2 = document.getElementsByClassName("close2")[0]; 
+//var span2 = document.getElementsByClassName("close2")[0]; 
 
 // When the user clicks on the button, open the modal
 inbutton.addEventListener("click",inst) 
@@ -76,10 +76,12 @@ span1.onclick = function() {
     infoModal.style.display = "none";
     modal1.style.display = "none";
 }
+/*
 span2.onclick = function() {
     infoModal.style.display = "none";
     modal1.style.display = "none";
 }
+*/ 
 
 function inst(){
     instruction.style.display = "block";
@@ -88,38 +90,6 @@ function inst(){
     console.log(1);
 }
 
-/*
-
-const isRequired = value => value === '' ? false : true;
-
-const showError = (input, message) => {
-    // get the form-field element
-    const formField = input.parentElement;
-    // add the error class
-    formField.classList.remove('success');
-    formField.classList.add('error');
-
-    // show the error message
-    const error = formField.querySelector('small');
-    error.textContent = message;
-};
-const usernameEl = document.querySelector('#name'); 
-const username = usernameEl.value.trim();
-
-const showSuccess = (input) => {
-    // get the form-field element
-    const formField = input.parentElement;
-
-    // remove the error class
-    formField.classList.remove('error');
-    formField.classList.add('success');
-
-    // hide the error message
-    const error = formField.querySelector('small');
-    error.textContent = '';
-};
-
-*/
 
 function startSurvey() {
     if (progress == undefined) {
@@ -130,22 +100,7 @@ function startSurvey() {
     }
 }
 
-/*
 
-const form = document.querySelector('#signup');
-
-form.addEventListener('input', function (e) { 
-    switch (e.target.id) {
-        case 'name':
-            if (!isRequired(username)) {
-                showError(usernameEl, 'Username cannot be blank.');
-            }else { 
-                showSuccess(usernameEl);
-            } 
-            break;
-    }
-})
-*/
 
 function submiting(){ 
     var name =  document.getElementById('name'); 
@@ -169,10 +124,11 @@ function submiting(){
     info["argue"] = argue.value; 
     info["conflicts"] = conflicts.value; 
     console.log(info); 
-    instruction.style.display = "none"
-    infoModal.style.display = "block";
-    modal1.style.display = "none";
     submit.disabled = true; 
+    instruction.style.display = "none"
+    infoModal.style.display = "none";
+    modal1.style.display = "none";
+    
     progress = 1;
     
 } 
