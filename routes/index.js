@@ -41,7 +41,7 @@ function get_audio(filename, audio_blob) {
 
 
 router.get('/texts', function(req, res) { 
-    var integer = randomInt(1,40).toString(); 
+    var integer = randomInt(1,60).toString(); 
 
     var filePath = 'texts/' + integer + '.txt' ;
     //path.join(__dirname, 'texts/1.txt');
