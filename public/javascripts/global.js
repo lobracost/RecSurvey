@@ -12,7 +12,7 @@ var input;
 //holds selected encoding for resulting audio (file) 
 var encodeAfterRecord = true;
 // when to encode 
-var audioContext;
+const audioContext = new AudioContext;
 
 var number_of_text;
 
@@ -40,7 +40,7 @@ var startrec = document.getElementById("startrec");
 var next2 = document.getElementById("next2");
 
 stopButton1.disabled = true;
-next2.disabled = true;
+//next2.disabled = true;
 
 
 //Get the button that submits the demographic info
@@ -148,7 +148,7 @@ function next_text(){
     }
     //recordingsList1.removeChild(li);
     get('/texts');
-    next2.disabled = true;
+    //next2.disabled = true;
     //infoModal.style.display = "none"; 
     //
 }
@@ -179,7 +179,7 @@ function startRecording() {
             //assign to gumStream for later use 
             gumStream = stream;
             /* use the stream */
-            audioContext = new AudioContext
+            //audioContext = new AudioContext
             input = audioContext.createMediaStreamSource(stream);
             //stop the input from playing back through the speakers 
             //input.connect(audioContext.destination)
@@ -266,7 +266,7 @@ function createDownloadLink(blob) {
 
         post("/", params, "post", true) 
 
-        next2.disabled = false;
+        //next2.disabled = false;
     })
     li.appendChild(document.createTextNode(" ")) //add a space in between 
     li.appendChild(upload) //add the upload link to li
