@@ -57,7 +57,7 @@ router.get('/texts', function(req, res) {
 
 
 function randomInt(low, high) {
-  return Math.floor(Math.random() * (high - low) + low)
+  return Math.floor(Math.random() * (high - low) + low);
 }
 
 module.exports = router;

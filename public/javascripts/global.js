@@ -1,7 +1,8 @@
-let progress;
-console.log(progress)
+let progress; 
 
-var info = {}
+console.log(progress);
+
+var info = {};
 
 var gumStream;
 //stream from getUserMedia() 
@@ -12,8 +13,8 @@ var input;
 //holds selected encoding for resulting audio (file) 
 var encodeAfterRecord = true;
 // when to encode 
-const audioContext = new AudioContext;
 
+//const audioContext = new AudioContext();
 var number_of_text;
 
 //new audio context to help us record 
@@ -28,13 +29,13 @@ stopButton1.addEventListener("click", stopRecording);
 
 
 // Get the modal
-var instruction = document.getElementById("instruction")
+var instruction = document.getElementById("instruction");
 var infoModal = document.getElementById("infoModal");
 var modal1 = document.getElementById("modal1");
 
 
 // Get the button that opens the modal
-var inbutton = document.getElementById("inbutton")
+var inbutton = document.getElementById("inbutton");
 var demog = document.getElementById("demog");
 var startrec = document.getElementById("startrec");
 var next2 = document.getElementById("next2");
@@ -44,7 +45,7 @@ stopButton1.disabled = true;
 
 
 //Get the button that submits the demographic info
-var submit = document.getElementById("submit")
+var submit = document.getElementById("submit");
 
 
 // Get the <span> element that closes the modal
@@ -52,21 +53,21 @@ var span1 = document.getElementsByClassName("close1")[0];
 //var span2 = document.getElementsByClassName("close2")[0]; 
 
 // When the user clicks on the button, open the modal
-inbutton.addEventListener("click",inst) 
+inbutton.addEventListener("click",inst);
 
-demog.addEventListener("click", startSurvey)
+demog.addEventListener("click", startSurvey);
 
 
 //startrec.addEventListener("click", function(event) { get('/texts')})
 
-startrec.addEventListener("click", startFirst) 
+startrec.addEventListener("click", startFirst);
 
 /*startrec.addEventListener("click", get("/texts"))*/
 
-next2.addEventListener("click", next_text)
+next2.addEventListener("click", next_text);
 
 //When the user clicks in sumbimmitin demographic info 
-submit.addEventListener("click",submiting)
+submit.addEventListener("click",submiting);
 
 
 // When the user clicks on <span> (x), close the modal
@@ -75,7 +76,7 @@ span1.onclick = function() {
     /*inbutton.style.display ="block";*/ 
     infoModal.style.display = "none";
     modal1.style.display = "none";
-}
+};
 /*
 span2.onclick = function() {
     infoModal.style.display = "none";
@@ -125,7 +126,7 @@ function submiting(){
     info["conflicts"] = conflicts.value; 
     console.log(info); 
     submit.disabled = true; 
-    instruction.style.display = "none"
+    instruction.style.display = "none";
     infoModal.style.display = "none";
     modal1.style.display = "none";
     
@@ -167,19 +168,22 @@ function startRecording() {
     stopButton.disabled = false;
 
     /*-----------------*/
-
+    
     var constraints = {
-            audio: true,
+            audio: {
+                volume: 1.0,
+            },
             video: false
-        }
+    };
+    
         /* We're using the standard promise based getUserMedia() https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia */
     navigator.mediaDevices.getUserMedia(constraints).then(
         function(stream) {
             console.log("getUserMedia() success, stream created, initializing WebAudioRecorder...");
             //assign to gumStream for later use 
             gumStream = stream;
-            /* use the stream */
-            //audioContext = new AudioContext
+            /* use the stream */ 
+            var audioContext = new AudioContext();
             input = audioContext.createMediaStreamSource(stream);
             //stop the input from playing back through the speakers 
             //input.connect(audioContext.destination)
@@ -201,7 +205,7 @@ function startRecording() {
                 gumStream.getAudioTracks()[0].stop();
                 console.log("Encoding complete");
                 createDownloadLink(blob);
-            }
+            };
             recorder.setOptions({
                 timeLimit: 600,
                 encodeAfterRecord: encodeAfterRecord,
@@ -250,7 +254,7 @@ function createDownloadLink(blob) {
     li.appendChild(link); //add the li element to the ordered list 
 
     var date = new Date().toISOString();
-    var filename = number_of_text + "_" + info.name + "_" + info.gender + "_"+ info.age + "_" + info.english_fluency + "_" + info.english_frequency + "_" + info.anxiety + "_" + info.introvert + "_" + info.humor + "_" + info.argue + "_" + info.conflicts + "_" + date
+    var filename = number_of_text + "_" + info.name + "_" + info.gender + "_"+ info.age + "_" + info.english_fluency + "_" + info.english_frequency + "_" + info.anxiety + "_" + info.introvert + "_" + info.humor + "_" + info.argue + "_" + info.conflicts + "_" + date;
 
         //filename to send to server without extension 
         //upload link 
@@ -262,14 +266,14 @@ function createDownloadLink(blob) {
         var params = {
             audio_blob: blob,
             filename: filename
-        }
+        };
 
-        post("/", params, "post", true) 
+        post("/", params, "post", true);
 
         //next2.disabled = false;
-    })
-    li.appendChild(document.createTextNode(" ")) //add a space in between 
-    li.appendChild(upload) //add the upload link to li
+    });
+    li.appendChild(document.createTextNode(" ")); //add a space in between 
+    li.appendChild(upload); //add the upload link to li
 
     //add the li element to the ordered list 
     recordingsList1.appendChild(li);
@@ -279,8 +283,8 @@ function post(path, params, method) {
     var fd = new FormData();
     fd.append('filename', params.filename);
     fd.append('audio_blob', params.audio_blob);
-    console.log(fd.get("audio_blob"))
-    console.log(fd.get("filename"))
+    console.log(fd.get("audio_blob"));
+    console.log(fd.get("filename"));
     $.ajax({
         type: 'POST',
         url: path,
@@ -289,7 +293,7 @@ function post(path, params, method) {
         contentType: false
     }).done(function(data) {
         console.log(data);
-    })
+    });
 } 
 
 
@@ -304,7 +308,7 @@ function get(url_to_text){
                 // show the corresponding text 
                 number_of_text = content.int;
                 $('#trivia').text(content.data); 
-                console.log(content)
+                console.log(content);
            });
 }
 

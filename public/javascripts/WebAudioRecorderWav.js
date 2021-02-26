@@ -16,36 +16,44 @@ function init(data) {
   sampleRate = data.config.sampleRate;
   numChannels = data.config.numChannels;
   options = data.options;
-};
+} 
 
 function setOptions(opt) {
-  if (encoder || recBuffers)
+  if (encoder || recBuffers) {
     error("cannot set options during recording");
-  else
+  }
+  else {
     options = opt;
+  }
 }
 
 function start(bufferSize) {
   maxBuffers = Math.ceil(options.timeLimit * sampleRate / bufferSize);
-  if (options.encodeAfterRecord)
+  if (options.encodeAfterRecord) {
     recBuffers = [];
-  else
+  }
+  else {
     encoder = new WavAudioEncoder(sampleRate, numChannels);
+  }
 }
 
 function record(buffer) {
-  if (bufferCount++ < maxBuffers)
-    if (encoder)
+  if (bufferCount++ < maxBuffers) {
+    if (encoder){
       encoder.encode(buffer);
-    else
+    }
+    else if (recBuffers) {
       recBuffers.push(buffer);
-  else
-    self.postMessage({ command: "timeout" });
+    } 
+  }
+  else{
+    self.postMessage({ command: "timeout" }); 
+  }
 };
 
 function postProgress(progress) {
   self.postMessage({ command: "progress", progress: progress });
-};
+}
 
 function finish() {
   if (recBuffers) {
@@ -67,10 +75,11 @@ function finish() {
     blob: encoder.finish(options.wav.mimeType)
   });
   cleanup();
-};
+}
 
 function cleanup() {
-  encoder = recBuffers = undefined;
+  encoder = undefined;
+  recBuffers = undefined;
   bufferCount = 0;
 }
 

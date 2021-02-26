@@ -52,9 +52,11 @@
     // constructor
     var WebAudioRecorder = function(sourceNode, configs) {
         extend(this, CONFIGS, configs || {});
+        this.sourceNode = sourceNode;
         this.context = sourceNode.context;
-        if (this.context.createScriptProcessor == null)
+        if (this.context.createScriptProcessor == null) {
             this.context.createScriptProcessor = this.context.createJavaScriptNode;
+        }
         this.input = this.context.createGain();
         sourceNode.connect(this.input);
         this.buffer = [];
@@ -66,8 +68,9 @@
         isRecording: function() { return this.processor != null; },
 
         setEncoding: function(encoding) {
-            if (this.isRecording())
+            if (this.isRecording()) {
                 this.error("setEncoding: cannot set encoding during recording");
+            }
             else if (this.encoding !== encoding) {
                 this.encoding = encoding;
                 this.initWorker();
@@ -75,8 +78,9 @@
         },
 
         setOptions: function(options) {
-            if (this.isRecording())
+            if (this.isRecording()) {
                 this.error("setOptions: cannot set options during recording");
+            }
             else {
                 extend(this.options, options);
                 this.worker.postMessage({ command: "options", options: this.options });
@@ -84,8 +88,9 @@
         },
 
         startRecording: function() {
-            if (this.isRecording())
+            if (this.isRecording()) {
                 this.error("startRecording: previous recording is running");
+            }
             else {
                 var numChannels = this.numChannels,
                     buffer = this.buffer,
@@ -115,38 +120,46 @@
         cancelRecording: function() {
             if (this.isRecording()) {
                 this.input.disconnect();
-                this.processor.disconnect();
+                this.processor.disconnect(); 
+                this.processor.onaudioprocess = null;
                 delete this.processor;
                 this.worker.postMessage({ command: "cancel" });
-            } else
+            } else {
                 this.error("cancelRecording: no recording is running");
+            }
         },
 
         finishRecording: function() {
             if (this.isRecording()) {
                 this.input.disconnect();
                 this.processor.disconnect();
+                this.processor.onaudioprocess = null;
                 delete this.processor;
                 this.worker.postMessage({ command: "finish" });
-            } else
+            } else {
                 this.error("finishRecording: no recording is running");
+            }
         },
 
         cancelEncoding: function() {
-            if (this.options.encodeAfterRecord)
-                if (this.isRecording())
+            if (this.options.encodeAfterRecord) {
+                if (this.isRecording()) {
                     this.error("cancelEncoding: recording is not finished");
+                }
                 else {
                     this.onEncodingCanceled(this);
                     this.initWorker();
-                }
-            else
+                } 
+            }
+            else {
                 this.error("cancelEncoding: invalid method call");
+            }
         },
 
         initWorker: function() {
-            if (this.worker != null)
+            if (this.worker != null) {
                 this.worker.terminate();
+            }
             this.onEncoderLoading(this, this.encoding);
             this.worker = new Worker(this.workerDir + WORKER_FILE[this.encoding]);
             var _this = this;
