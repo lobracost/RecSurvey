@@ -1,5 +1,6 @@
 let progress; 
-
+let press_upload;
+press_upload = 1;
 console.log(progress);
 
 var info = {};
@@ -21,17 +22,20 @@ var number_of_text;
 var recordButton1 = document.getElementById("recordButton1");
 var stopButton1 = document.getElementById("stopButton1");
 var recordingsList1 = document.getElementById("recordingsList1");
-
+var yes = document.getElementById("yes");
+var no = document.getElementById("no");
 
 //add events to those 3 buttons 
 recordButton1.addEventListener("click", startRecording);
 stopButton1.addEventListener("click", stopRecording);
-
+yes.addEventListener("click", proceed_to_next);
+no.addEventListener("click", stay);
 
 // Get the modal
 var instruction = document.getElementById("instruction");
 var infoModal = document.getElementById("infoModal");
 var modal1 = document.getElementById("modal1");
+var modal2 = document.getElementById("modal2")
 
 
 // Get the button that opens the modal
@@ -143,7 +147,24 @@ function startFirst() {
 }
 
 function next_text(){ 
-    //modal1.style.display = "block";
+    if (press_upload == 1){
+       modal2.style.display ="block";
+    }
+    else {
+        //modal1.style.display = "block";
+        while (recordingsList1.firstChild) {
+            recordingsList1.removeChild(recordingsList1.lastChild);
+        }
+        //recordingsList1.removeChild(li);
+        get('/texts');
+        //next2.disabled = true;
+        //infoModal.style.display = "none"; 
+        //
+        press_upload = 1;
+    }
+}
+function proceed_to_next(){
+    modal2.style.display = "none";
     while (recordingsList1.firstChild) {
         recordingsList1.removeChild(recordingsList1.lastChild);
     }
@@ -152,6 +173,11 @@ function next_text(){
     //next2.disabled = true;
     //infoModal.style.display = "none"; 
     //
+    press_upload =1;
+}
+
+function stay(){
+    modal2.style.display = "none";
 }
 
 function startRecording() {
@@ -262,7 +288,7 @@ function createDownloadLink(blob) {
     upload.href = "#";
     upload.innerHTML = "Upload";
     upload.addEventListener("click", function(event) {
-
+        press_upload = 2;
         var params = {
             audio_blob: blob,
             filename: filename

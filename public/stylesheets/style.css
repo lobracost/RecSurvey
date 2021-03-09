@@ -32,6 +32,21 @@ input {
 #trivia {
   font: italic 14pt Arial;
 }
+#notice{
+  text-align: center;
+  font: italic 14pt Arial;
+  font-weight: 500;
+}
+.decision{
+  text-align: center;
+}
+#yes,#no{
+  margin-left: 10px;
+  color: #A52A2A;
+}
+#yes:hover,#no:hover{
+  color:#D2691E;
+}
 
 #inbutton,#demog,#startrec{ 
     font-size: 15px;
@@ -77,6 +92,15 @@ input {
 
 .modal-content {
     background-color: #F0FFF0;
+    margin: 15% auto;
+    /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    /* Could be more or less, depending on screen size */
+}
+.modal-content2 {
+    background-color: #B0E0E6;
     margin: 15% auto;
     /* 15% from the top and centered */
     padding: 20px;
