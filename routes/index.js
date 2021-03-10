@@ -28,7 +28,7 @@ router.post('/', function(req, res) {
 });
 
 function get_audio(filename, audio_blob) {
-    mv(audio_blob.path, "recordings/" + filename + ".wav", function(err) {
+    mv(audio_blob.path, "recordings/" + filename + ".mp3", function(err) {
         if (err) {
             console.log("err", err);
         } else {
@@ -36,28 +36,28 @@ function get_audio(filename, audio_blob) {
         }
     });
 
-} 
+}
 
 
 
-router.get('/texts', function(req, res) { 
-    var integer = randomInt(1,60).toString(); 
+router.get('/texts', function(req, res) {
+    var integer = randomInt(1, 60).toString();
 
-    var filePath = 'texts/' + integer + '.txt' ;
+    var filePath = 'texts/' + integer + '.txt';
     //path.join(__dirname, 'texts/1.txt');
-    fs.readFile(filePath,"utf8", function(e, data){
+    fs.readFile(filePath, "utf8", function(e, data) {
         if (e) {
-            console.log("e",e);
-        } else { 
+            console.log("e", e);
+        } else {
             var data = data.toString();
-            res.send({"data":data,"int":integer}); 
-        } 
+            res.send({ "data": data, "int": integer });
+        }
     });
 });
 
 
 function randomInt(low, high) {
-  return Math.floor(Math.random() * (high - low) + low);
+    return Math.floor(Math.random() * (high - low) + low);
 }
 
 module.exports = router;
