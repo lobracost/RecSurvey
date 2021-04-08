@@ -15,9 +15,9 @@ var input;
 var encodeAfterRecord = true;
 // when to encode 
 
-//const audioContext = new AudioContext();
-var number_of_text;
 
+var number_of_text;
+const audioContext = new AudioContext();
 //new audio context to help us record 
 var recordButton1 = document.getElementById("recordButton1");
 var stopButton1 = document.getElementById("stopButton1");
@@ -273,18 +273,17 @@ function createDownloadLink(blob) {
     var url = URL.createObjectURL(blob);
     var au = document.createElement('audio');
     var li = document.createElement('li');
-    var link = document.createElement('a');
+    
     //add controls to the "audio" element 
     au.controls = true;
     au.src = url; //link the a element to the blob 
-    link.href = url;
-    link.download = new Date().toISOString() + 'mp3';
-    link.innerHTML = link.download;
+    
     //add the new audio and a elements to the li element 
     li.appendChild(au);
-    li.appendChild(link); //add the li element to the ordered list 
+    
 
-    var date = new Date().toISOString();
+    var date = new Date().toISOString(); 
+    info.name = info.name.split(' ').join('_');
     var filename = number_of_text + "_" + info.name + "_" + info.gender + "_" + info.age + "_" + info.english_fluency + "_" + info.english_frequency + "_" + info.anxiety + "_" + info.introvert + "_" + info.humor + "_" + info.argue + "_" + info.conflicts + "_" + date;
 
     //filename to send to server without extension 
@@ -300,7 +299,7 @@ function createDownloadLink(blob) {
         };
 
         post("/", params, "post", true);
-
+        li.appendChild(document.createTextNode("  -Uploaded-")); //add a space in between 
         //next2.disabled = false;
     });
     li.appendChild(document.createTextNode(" ")); //add a space in between 
