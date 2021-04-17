@@ -21,7 +21,7 @@ a {
 */
 
 input {
-    display: block;
+    display: inline-block;
     font-size: 11px;
     padding: 4px 2px;
     border: solid 1px #aacfe4;
@@ -138,6 +138,23 @@ h1 {
     background-color: lightgrey;
     color: blue;
     */
+}
+#p-div{
+  text-align: center;
+}
+.p-style{
+    margin-top: 40px;
+    margin:0;
+    text-align:center;
+    vertical-align: top;
+    color: #666600 ;
+    font-family: serif; 
+    font-size: 15px;
+    background-color: #b3cccc;
+    /*border: #000000;*/
+    border-style: dashed;
+    border-radius: 15px;
+    display:inline-block;
 }
 
 .subheader { 

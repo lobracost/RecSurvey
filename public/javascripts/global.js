@@ -107,7 +107,15 @@ function startSurvey() {
 
 
 
-function submiting() {
+
+
+function submiting() { 
+    
+    var x = document.forms["signup"]["name"].value;
+      if (x == "") {
+        alert("Name must be filled out");
+        return false;
+    }
     var name = document.getElementById('name');
     var gender = document.getElementById('gender');
     var age = document.getElementById('age');
@@ -134,8 +142,7 @@ function submiting() {
     infoModal.style.display = "none";
     modal1.style.display = "none";
 
-    progress = 1;
-
+    progress = 1; 
 }
 
 function startFirst() {
